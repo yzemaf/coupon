@@ -293,7 +293,10 @@ function App() {
             <h4 id="child-modal-title">Congratulations 🎉🎉</h4>
             <img
               src={Success}
-              style={{ width: matches ? 300 : 200 }}
+              style={{
+                width: matches ? 300 : 200,
+                minHeight: matches ? "30vh" : "20vh",
+              }}
               alt="success"
             />
             <h6 id="child-modal-description">
@@ -321,7 +324,10 @@ function App() {
             <h4 id="child-modal-title">Sorry 🙁🙁 </h4>
             <img
               src={Error}
-              style={{ width: matches ? 300 : 200 }}
+              style={{
+                width: matches ? 300 : 200,
+                minHeight: matches ? "30vh" : "20vh",
+              }}
               alt="success"
             />
             <h6 id="child-modal-description">

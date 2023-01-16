@@ -116,7 +116,7 @@ function App() {
           <br />
           <img
             src={Coupon}
-            style={{ width: matches ? 300 : 230 }}
+            style={{ width: matches ? 300 : 230, minHeight: matches ? "30vh" : "20vh" }}
             alt="coupon"
           />
           <br />

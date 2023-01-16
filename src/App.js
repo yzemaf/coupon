@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { Container } from "@mui/system";
 import { styled } from "@mui/material/styles";
+import { animateScroll as scroll } from "react-scroll";
 import Coupon from "./imgs/coupon.jpg";
 
 function App() {
@@ -49,6 +50,12 @@ function App() {
       setInterval(() => {
         setTimes((time) => time - 1);
       }, 1000);
+      scroll.scrollTo(250, {
+        duration: 1500,
+        delay: 0,
+        smooth: true,
+        offset: 50, // Scrolls to element + 50 pixels down the page
+      });
   }, [start]);
   useEffect(() => {
     if (times === 0) clearInterval();

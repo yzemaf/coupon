@@ -300,7 +300,7 @@ function App() {
               alt="success"
             />
             <h6 id="child-modal-description">
-              You answer was correct and you have received a coupon for this
+              Your answer was correct and you have received a coupon for this
               product !!!
             </h6>
             <a href="https://www.google.com/search?q=coupon">
@@ -331,7 +331,7 @@ function App() {
               alt="success"
             />
             <h6 id="child-modal-description">
-              You answer was wrong and you did not win a coupon for this product
+              Your answer was wrong and you did not win a coupon for this product
             </h6>
             <Button onClick={handleClose2} color="error">
               Cancel

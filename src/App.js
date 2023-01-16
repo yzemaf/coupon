@@ -114,7 +114,11 @@ function App() {
         <Paper elevation={8} className="box">
           <Typography>Product ID: 47214371</Typography>
           <br />
-          <img src={Coupon} alt="coupon" />
+          <img
+            src={Coupon}
+            style={{ width: matches ? 300 : 230 }}
+            alt="coupon"
+          />
           <br />
           <Typography>
             Price&nbsp;:&nbsp;
@@ -289,7 +293,7 @@ function App() {
             <h4 id="child-modal-title">Congratulations 🎉🎉</h4>
             <img
               src={Success}
-              style={{ width: matches ? 400 : 200 }}
+              style={{ width: matches ? 300 : 200 }}
               alt="success"
             />
             <h6 id="child-modal-description">
@@ -317,7 +321,7 @@ function App() {
             <h4 id="child-modal-title">Sorry 🙁🙁 </h4>
             <img
               src={Error}
-              style={{ width: matches ? 400 : 200 }}
+              style={{ width: matches ? 300 : 200 }}
               alt="success"
             />
             <h6 id="child-modal-description">

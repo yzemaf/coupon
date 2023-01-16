@@ -17,9 +17,24 @@ import {
   Typography,
 } from "@mui/material";
 import { Container } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import Coupon from "./imgs/coupon.jpg";
 
 function App() {
+  const Widget = styled("div")(({ theme }) => ({
+    padding: 16,
+    borderRadius: 16,
+    maxWidth: "100%",
+    margin: "auto",
+    position: "relative",
+    zIndex: 1,
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? "rgba(0,0,0,0.6)"
+        : "rgba(255,255,255,0.4)",
+    backdropFilter: "blur(40px)",
+  }));
+
   const [opened, setOpened] = useState(false);
   const [times, setTimes] = useState(100);
   const [start, setStart] = useState(false);
@@ -41,15 +56,16 @@ function App() {
 
   return (
     <Container maxWidth="lg" id="home">
-      <ButtonGroup
-        variant="text"
-        aria-label="text button group"
-        sx={{ paddingTop: "1rem" }}
-      >
-        <Button></Button>
-        <Button>Welcome To The Coupon Page</Button>
-        <Button></Button>
-      </ButtonGroup>
+      <Widget sx={{ marginTop: "1rem" }}>
+        <ButtonGroup
+          variant="text"
+          aria-label="text button group"
+        >
+          <Button></Button>
+          <Button>Welcome To The Coupon Page</Button>
+          <Button></Button>
+        </ButtonGroup>
+      </Widget>
       <Paper elevation={8} className="box">
         <Typography>Product ID: 47214371</Typography>
         <br />

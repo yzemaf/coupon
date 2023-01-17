@@ -6,7 +6,6 @@ import {
   Box,
   Button,
   ButtonGroup,
-  Chip,
   CircularProgress,
   Divider,
   Modal,
@@ -17,6 +16,7 @@ import {
   Stack,
   Typography,
   useMediaQuery,
+  TextField,
 } from "@mui/material";
 import { Container } from "@mui/system";
 import { styled } from "@mui/material/styles";
@@ -30,6 +30,12 @@ import "animate.css";
 import "react-notifications-component/dist/theme.css";
 
 function App() {
+  const [userAnswered, setUserAnswered] = useState(false);
+  useEffect(() => {
+    const auth = localStorage.getItem("answered");
+    if (auth) setUserAnswered(true);
+  }, []);
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -55,7 +61,7 @@ function App() {
     backgroundColor:
       theme.palette.mode === "dark"
         ? "rgba(0,0,0,0.6)"
-        : "rgba(255,255,255,0.4)",
+        : "rgba(255,255,255,0.805)",
     backdropFilter: "blur(40px)",
   }));
   const matches = useMediaQuery("(min-width:600px)");
@@ -63,12 +69,7 @@ function App() {
   const [times, setTimes] = useState(100);
   const [answered, setAnswered] = useState(false);
   const [start, setStart] = useState(false);
-  const [answers, setAnswers] = useState({
-    one: false,
-    two: false,
-    three: false,
-    four: false,
-  });
+  const [answers, setAnswers] = useState("");
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -111,172 +112,164 @@ function App() {
             <Button></Button>
           </ButtonGroup>
         </Widget>
-        <Paper elevation={8} className="box">
-          <Typography>Product ID: 47214371</Typography>
-          <br />
-          <img
-            src={Coupon}
-            style={{ width: matches ? 300 : 230, minHeight: matches ? "30vh" : "20vh" }}
-            alt="coupon"
-          />
-          <br />
-          <Typography>
-            Price&nbsp;:&nbsp;
-            <b style={{ color: "red", fontWeight: 700, fontSize: "1.2rem" }}>
-              $50
-            </b>
-          </Typography>
-          <br />
-          <Alert severity="warning" style={{ textAlign: "center" }}>
-            Hello! You are eligible to get a coupon for the above product if you
-            can answer the question below correctly.
-          </Alert>
-        </Paper>
-        <br />
-        {!start && (
-          <Fab variant="extended" onClick={() => setStart(true)}>
-            Your question
-          </Fab>
-        )}
-        {start && (
+        {!userAnswered ? (
           <div>
-            {!answered && (
-              <div style={{ marginTop: "0.5rem" }}>
-                <LinearProgress
-                  variant="determinate"
-                  value={times}
-                  style={{
-                    height: "1vh",
-                    borderRadius: "20px",
-                    display: times < 0 && "none",
-                  }}
-                  color="warning"
-                />
-                {times < 0 && (
-                  <Alert variant="filled" severity="error">
-                    Error! You failed to answer the question on time.
-                  </Alert>
+            <Paper elevation={8} className="box">
+              <Typography>Product ID: 47214371</Typography>
+              <br />
+              <img
+                src={Coupon}
+                style={{
+                  width: matches ? 300 : 230,
+                  minHeight: matches ? "30vh" : "20vh",
+                }}
+                alt="coupon"
+              />
+              <br />
+              <Typography>
+                Price&nbsp;:&nbsp;
+                <b
+                  style={{ color: "red", fontWeight: 700, fontSize: "1.2rem" }}
+                >
+                  $50
+                </b>
+              </Typography>
+              <br />
+              <Alert severity="warning" style={{ textAlign: "center" }}>
+                Hello! You are eligible to get a coupon for the above product if
+                you can answer the question below correctly.
+              </Alert>
+            </Paper>
+            <br />
+            {!start && (
+              <Fab variant="extended" onClick={() => setStart(true)}>
+                Your question
+              </Fab>
+            )}
+            {start && (
+              <div>
+                {!answered && (
+                  <div style={{ marginTop: "0.5rem" }}>
+                    <LinearProgress
+                      variant="determinate"
+                      value={times}
+                      style={{
+                        height: "1vh",
+                        borderRadius: "20px",
+                        display: times < 0 && "none",
+                      }}
+                      color="warning"
+                    />
+                    {times < 0 && (
+                      <Alert variant="filled" severity="error">
+                        Error! You failed to answer the question on time.
+                      </Alert>
+                    )}
+                  </div>
                 )}
+
+                <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+                  <Box sx={{ my: 3, mx: 2 }}>
+                    <Grid container alignItems="center">
+                      <Grid item xs>
+                        <Typography gutterBottom variant="h4" component="div">
+                          Question
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Typography color="text.secondary" variant="body2">
+                      RGB consists of the 3 primary colors, R in this context
+                      stands for what?
+                    </Typography>
+                  </Box>
+                  <Divider variant="middle" />
+                  <Box sx={{ m: 2 }}>
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      style={{
+                        justifyContent: "center",
+                      }}
+                    >
+                      <TextField
+                        variant="standard"
+                        label="answer"
+                        size="small"
+                        onChange={(e) => setAnswers(e.target.value)}
+                      />
+                    </Stack>
+                  </Box>
+                  <Box sx={{ mt: 3, ml: 1, mb: 1 }}>
+                    <Button
+                      onClick={() => {
+                        if (answers !== "") {
+                          setAnswered(true);
+                          setOpened(true);
+                          localStorage.setItem("answered", true);
+                          setTimeout(() => {
+                            setOpened(false);
+                            if (
+                              answers
+                                .replace(/[^A-Z0-9]/gi, "")
+                                .toLocaleLowerCase() === "red"
+                            ) {
+                              handleOpen();
+                            } else {
+                              handleOpen2();
+                            }
+                          }, 1000);
+                        } else {
+                          Store.addNotification({
+                            title: "Error!",
+                            message: "You have not given an answer",
+                            type: "danger",
+                            insert: "top",
+                            container: "top-left",
+                            animationIn: [
+                              "animate__animated",
+                              "animate__fadeIn",
+                            ],
+                            animationOut: [
+                              "animate__animated",
+                              "animate__fadeOut",
+                            ],
+                            dismiss: {
+                              duration: 3000,
+                              onScreen: true,
+                            },
+                          });
+                        }
+                      }}
+                      disabled={times < 0 || answered}
+                    >
+                      SUBMIT
+                    </Button>
+                  </Box>
+                </Box>
               </div>
             )}
-
-            <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
-              <Box sx={{ my: 3, mx: 2 }}>
-                <Grid container alignItems="center">
-                  <Grid item xs>
-                    <Typography gutterBottom variant="h4" component="div">
-                      Question
-                    </Typography>
-                  </Grid>
+          </div>
+        ) : (
+          <div>
+            <Box
+              sx={{
+                my: 3,
+                mx: 2,
+                backgroundColor: "rgba(255, 255, 255, 255)",
+                borderRadius: "20px",
+                p: 5,
+              }}
+            >
+              <Grid container alignItems="center">
+                <Grid item xs>
+                  <Typography gutterBottom variant="h4" component="div">
+                    Hello
+                  </Typography>
                 </Grid>
-                <Typography color="text.secondary" variant="body2">
-                  This is a random question having the second option as the
-                  answer?
-                </Typography>
-              </Box>
-              <Divider variant="middle" />
-              <Box sx={{ m: 2 }}>
-                <Stack
-                  direction="row"
-                  spacing={1}
-                  style={{
-                    justifyContent: "center",
-                  }}
-                >
-                  <Chip
-                    onClick={() =>
-                      setAnswers({
-                        one: !answers.one,
-                        two: false,
-                        three: false,
-                        four: false,
-                      })
-                    }
-                    label="Option 1"
-                    color={answers.one ? "warning" : "default"}
-                    variant="outlined"
-                  />
-                  <Chip
-                    onClick={() =>
-                      setAnswers({
-                        one: false,
-                        two: !answers.two,
-                        three: false,
-                        four: false,
-                      })
-                    }
-                    label="Option 2"
-                    color={answers.two ? "warning" : "default"}
-                    variant="outlined"
-                  />
-                  <Chip
-                    onClick={() =>
-                      setAnswers({
-                        one: false,
-                        two: false,
-                        three: !answers.three,
-                        four: false,
-                      })
-                    }
-                    label="Option 3"
-                    color={answers.three ? "warning" : "default"}
-                    variant="outlined"
-                  />
-                  <Chip
-                    onClick={() =>
-                      setAnswers({
-                        one: false,
-                        two: false,
-                        three: false,
-                        four: !answers.four,
-                      })
-                    }
-                    label="Option 4"
-                    color={answers.four ? "warning" : "default"}
-                    variant="outlined"
-                  />
-                </Stack>
-              </Box>
-              <Box sx={{ mt: 3, ml: 1, mb: 1 }}>
-                <Button
-                  onClick={() => {
-                    if (
-                      answers.one ||
-                      answers.two ||
-                      answers.three ||
-                      answers.four
-                    ) {
-                      setAnswered(true);
-                      setOpened(true);
-                      setTimeout(() => {
-                        setOpened(false);
-                        if (answers.two) {
-                          handleOpen();
-                        } else {
-                          handleOpen2();
-                        }
-                      }, 1000);
-                    } else {
-                      Store.addNotification({
-                        title: "Error!",
-                        message: "You haven't selected any option",
-                        type: "danger",
-                        insert: "top",
-                        container: "top-left",
-                        animationIn: ["animate__animated", "animate__fadeIn"],
-                        animationOut: ["animate__animated", "animate__fadeOut"],
-                        dismiss: {
-                          duration: 3000,
-                          onScreen: true,
-                        },
-                      });
-                    }
-                  }}
-                  disabled={times < 0 || answered}
-                >
-                  SUBMIT
-                </Button>
-              </Box>
+              </Grid>
+              <Typography color="text.secondary" variant="body2">
+                You already answered your coupon bonus question.
+              </Typography>
             </Box>
           </div>
         )}
@@ -331,7 +324,8 @@ function App() {
               alt="success"
             />
             <h6 id="child-modal-description">
-              Your answer was wrong and you did not win a coupon for this product
+              Your answer was wrong and you did not win a coupon for this
+              product
             </h6>
             <Button onClick={handleClose2} color="error">
               Cancel

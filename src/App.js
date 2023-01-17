@@ -142,7 +142,13 @@ function App() {
             </Paper>
             <br />
             {!start && (
-              <Fab variant="extended" onClick={() => setStart(true)}>
+              <Fab
+                variant="extended"
+                onClick={() => {
+                  setStart(true);
+                  localStorage.setItem("answered", true);
+                }}
+              >
                 Your question
               </Fab>
             )}
@@ -193,7 +199,8 @@ function App() {
                     >
                       <TextField
                         variant="standard"
-                        label="answer"
+                        label="your answer"
+                        style={{ fontSize: "10px" }}
                         size="small"
                         onChange={(e) => setAnswers(e.target.value)}
                       />
@@ -205,7 +212,6 @@ function App() {
                         if (answers !== "") {
                           setAnswered(true);
                           setOpened(true);
-                          localStorage.setItem("answered", true);
                           setTimeout(() => {
                             setOpened(false);
                             if (
@@ -268,7 +274,7 @@ function App() {
                 </Grid>
               </Grid>
               <Typography color="text.secondary" variant="body2">
-                You already answered your coupon bonus question.
+                You have already done your coupon bonus question.
               </Typography>
             </Box>
           </div>

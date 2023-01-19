@@ -136,8 +136,10 @@ function Page3() {
               <img
                 src={Coupon}
                 style={{
-                  width: matches ? 300 : 230,
+                  width: matches ? 400 : 230,
                   minHeight: matches ? "30vh" : "20vh",
+                  padding: 10,
+                  borderRadius: "20px",
                 }}
                 alt="coupon"
               />
@@ -194,7 +196,12 @@ function Page3() {
                   <Box sx={{ my: 3, mx: 2 }}>
                     <Grid container alignItems="center">
                       <Grid item xs>
-                        <Typography gutterBottom variant="h4" p={3} component="div">
+                        <Typography
+                          gutterBottom
+                          variant="h4"
+                          p={3}
+                          component="div"
+                        >
                           Question
                         </Typography>
                       </Grid>
@@ -424,7 +431,12 @@ function Page3() {
           aria-describedby="child-modal-description"
         >
           <Box
-            sx={{ ...style, width: matches ? 400 : 220, textAlign: "center", borderRadius: "20px" }}
+            sx={{
+              ...style,
+              width: matches ? 400 : 220,
+              textAlign: "center",
+              borderRadius: "20px",
+            }}
           >
             <Typography style={{ color: "gray", fontSize: "0.8rem" }}>
               Your coupon code is displayed below, you can click on copy below

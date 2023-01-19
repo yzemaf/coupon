@@ -130,13 +130,15 @@ function Page4() {
         {!userAnswered ? (
           <div>
             <Paper elevation={8} className="box">
-              <Typography>Product ID: 5214371</Typography>
+              <Typography>Product ID: 8814371</Typography>
               <br />
               <img
                 src={Coupon}
                 style={{
-                  width: matches ? 300 : 230,
+                  width: matches ? 500 : 230,
                   minHeight: matches ? "30vh" : "20vh",
+                  padding: 10,
+                  borderRadius: "20px",
                 }}
                 alt="coupon"
               />

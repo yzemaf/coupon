@@ -127,16 +127,6 @@ function Page() {
             <Button></Button>
           </ButtonGroup>
         </Widget>
-        {/* <input onChange={(e) => setVal(e.target.value)} />
-        <CopyToClipboard
-          text={val}
-          onCopy={() => {
-            setCopied(true);
-            console.log(val);
-          }}
-        >
-          <Button>Copy to clipboard with span</Button>
-        </CopyToClipboard> */}
         {!userAnswered ? (
           <div>
             <Paper elevation={8} className="box">
@@ -145,8 +135,10 @@ function Page() {
               <img
                 src={Coupon}
                 style={{
-                  width: matches ? 300 : 230,
+                  width: matches ? 500 : 230,
                   minHeight: matches ? "30vh" : "20vh",
+                  padding: 10,
+                  borderRadius: "20px",
                 }}
                 alt="coupon"
               />

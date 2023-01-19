@@ -138,6 +138,8 @@ function Page2() {
                 style={{
                   width: matches ? 300 : 230,
                   minHeight: matches ? "30vh" : "20vh",
+                  padding: 10,
+                  borderRadius: "20px",
                 }}
                 alt="coupon"
               />

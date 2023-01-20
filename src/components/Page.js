@@ -29,6 +29,7 @@ import "animate.css";
 import "./c.css";
 import "react-notifications-component/dist/theme.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { motion } from "framer-motion";
 
 function Page() {
   const [userAnswered, setUserAnswered] = useState(false);
@@ -101,7 +102,7 @@ function Page() {
       }, 1000);
     scroll.scrollTo(250, {
       duration: 1500,
-      delay: 0,
+      delay: 500,
       smooth: true,
       offset: 50,
     });
@@ -117,7 +118,7 @@ function Page() {
     );
   }
   return (
-    <div>
+    <motion.div initial={{ width: 0 }} animate={{ width: "100%" }}>
       <ReactNotifications />
       <Container maxWidth="lg" id="home">
         <Widget sx={{ marginTop: "1rem" }}>
@@ -132,7 +133,9 @@ function Page() {
             <Paper elevation={8} className="box">
               <Typography>Product ID: 47214371</Typography>
               <br />
-              <img
+              <motion.img
+                initial={{ minHeight: "40vh", transition: { duration: 1 } }}
+                animate={{ minHeight: "30vh", transition: { duration: 1 } }}
                 src={Coupon}
                 style={{
                   width: matches ? 500 : 230,
@@ -195,7 +198,12 @@ function Page() {
                   <Box sx={{ my: 3, mx: 2 }}>
                     <Grid container alignItems="center">
                       <Grid item xs>
-                        <Typography gutterBottom variant="h4" p={3} component="div">
+                        <Typography
+                          gutterBottom
+                          variant="h4"
+                          p={3}
+                          component="div"
+                        >
                           Question
                         </Typography>
                       </Grid>
@@ -425,7 +433,12 @@ function Page() {
           aria-describedby="child-modal-description"
         >
           <Box
-            sx={{ ...style, width: matches ? 400 : 220, textAlign: "center", borderRadius: "20px" }}
+            sx={{
+              ...style,
+              width: matches ? 400 : 220,
+              textAlign: "center",
+              borderRadius: "20px",
+            }}
           >
             <Typography style={{ color: "gray", fontSize: "0.8rem" }}>
               Your coupon code is displayed below, you can click on copy below
@@ -466,7 +479,7 @@ function Page() {
           <CircularProgress color="inherit" />
         </Backdrop>
       </Container>
-    </div>
+    </motion.div>
   );
 }
 

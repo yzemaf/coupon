@@ -29,6 +29,7 @@ import "animate.css";
 import "./c.css";
 import "react-notifications-component/dist/theme.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { motion } from "framer-motion";
 
 function Page3() {
   const [userAnswered, setUserAnswered] = useState(false);
@@ -118,7 +119,7 @@ function Page3() {
     );
   }
   return (
-    <div>
+    <motion.div initial={{ width: 0 }} animate={{ width: "100%" }}>
       <ReactNotifications />
       <Container maxWidth="lg" id="home">
         <Widget sx={{ marginTop: "1rem" }}>
@@ -133,7 +134,9 @@ function Page3() {
             <Paper elevation={8} className="box">
               <Typography>Product ID: 14371</Typography>
               <br />
-              <img
+              <motion.img
+                initial={{ minHeight: "20vh", transition: { duration: 1 } }}
+                animate={{ minHeight: "10vh", transition: { duration: 1 } }}
                 src={Coupon}
                 style={{
                   width: matches ? 400 : 230,
@@ -477,7 +480,7 @@ function Page3() {
           <CircularProgress color="inherit" />
         </Backdrop>
       </Container>
-    </div>
+    </motion.div>
   );
 }
 

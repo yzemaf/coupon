@@ -27,6 +27,7 @@ import Success from "../imgs/success.jpg";
 import Error from "../imgs/error.jpg";
 import "animate.css";
 import "./c.css";
+import { motion } from "framer-motion";
 import "react-notifications-component/dist/theme.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
@@ -117,7 +118,7 @@ function Page4() {
     );
   }
   return (
-    <div>
+    <motion.div initial={{ width: 0 }} animate={{ width: "100%" }}>
       <ReactNotifications />
       <Container maxWidth="lg" id="home">
         <Widget sx={{ marginTop: "1rem" }}>
@@ -132,7 +133,9 @@ function Page4() {
             <Paper elevation={8} className="box">
               <Typography>Product ID: 8814371</Typography>
               <br />
-              <img
+              <motion.img
+                initial={{ minHeight: "25vh", transition: { duration: 1 } }}
+                animate={{ minHeight: "20vh", transition: { duration: 1 } }}
                 src={Coupon}
                 style={{
                   width: matches ? 500 : 230,
@@ -195,13 +198,19 @@ function Page4() {
                   <Box sx={{ my: 3, mx: 2 }}>
                     <Grid container alignItems="center">
                       <Grid item xs>
-                        <Typography gutterBottom variant="h4" p={3} component="div">
+                        <Typography
+                          gutterBottom
+                          variant="h4"
+                          p={3}
+                          component="div"
+                        >
                           Question
                         </Typography>
                       </Grid>
                     </Grid>
                     <Typography color="text.secondary" variant="body2">
-                      When the two colors red and blue are mixed, the resultant color is?
+                      When the two colors red and blue are mixed, the resultant
+                      color is?
                     </Typography>
                   </Box>
                   <Divider variant="middle" />
@@ -424,7 +433,12 @@ function Page4() {
           aria-describedby="child-modal-description"
         >
           <Box
-            sx={{ ...style, width: matches ? 400 : 220, textAlign: "center", borderRadius: "20px" }}
+            sx={{
+              ...style,
+              width: matches ? 400 : 220,
+              textAlign: "center",
+              borderRadius: "20px",
+            }}
           >
             <Typography style={{ color: "gray", fontSize: "0.8rem" }}>
               Your coupon code is displayed below, you can click on copy below
@@ -465,7 +479,7 @@ function Page4() {
           <CircularProgress color="inherit" />
         </Backdrop>
       </Container>
-    </div>
+    </motion.div>
   );
 }
 

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ReactNotifications } from "react-notifications-component";
 import "animate.css";
 import "react-notifications-component/dist/theme.css";
+import { motion } from "framer-motion";
 
 function Home() {
   const navigate = useNavigate();
@@ -23,7 +24,10 @@ function Home() {
     backdropFilter: "blur(40px)",
   }));
   return (
-    <div>
+    <motion.div
+      initial={{ width: 0 }}
+      animate={{ width: "100%" }}
+    >
       <ReactNotifications />
       <Container maxWidth="lg" id="home">
         <Widget sx={{ marginTop: "1rem" }}>
@@ -83,7 +87,7 @@ function Home() {
           </Box>
         </div>
       </Container>
-    </div>
+    </motion.div>
   );
 }
 

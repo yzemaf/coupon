@@ -1,4 +1,11 @@
-import { Box, Button, ButtonGroup, Chip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Chip,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { Container } from "@mui/system";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +16,8 @@ import { motion } from "framer-motion";
 
 function Home() {
   const navigate = useNavigate();
+
+  const matches = useMediaQuery("(min-width:600px)");
   const Widget = styled("div")(({ theme }) => ({
     padding: 16,
     borderRadius: 16,
@@ -25,8 +34,8 @@ function Home() {
   }));
   return (
     <motion.div
-      initial={{ width: 0 }}
-      animate={{ width: "100%" }}
+      initial={{ width: matches && 0, opacity: !matches && 0 }}
+      animate={{ width: matches && "100%", opacity: !matches && 1 }}
     >
       <ReactNotifications />
       <Container maxWidth="lg" id="home">

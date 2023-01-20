@@ -118,7 +118,10 @@ function Page() {
     );
   }
   return (
-    <motion.div initial={{ width: 0 }} animate={{ width: "100%" }}>
+    <motion.div
+      initial={{ width: matches && 0, opacity: !matches && 0 }}
+      animate={{ width: matches && "100%", opacity: !matches && 1 }}
+    >
       <ReactNotifications />
       <Container maxWidth="lg" id="home">
         <Widget sx={{ marginTop: "1rem" }}>

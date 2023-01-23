@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Alert,
   Backdrop,
@@ -6,7 +6,6 @@ import {
   Button,
   ButtonGroup,
   CircularProgress,
-  Divider,
   Modal,
   Fab,
   Grid,
@@ -25,11 +24,19 @@ import { Store } from "react-notifications-component";
 import { ReactNotifications } from "react-notifications-component";
 import Success from "../imgs/success.jpg";
 import Error from "../imgs/error.jpg";
+import Zoom from "@mui/material/Zoom";
 import "animate.css";
 import "./c.css";
 import "react-notifications-component/dist/theme.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { motion } from "framer-motion";
+
+import SwipeableViews from "react-swipeable-views";
+import { useTheme } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import { East, West } from "@mui/icons-material";
 
 function Page3() {
   const [userAnswered, setUserAnswered] = useState(false);
@@ -45,7 +52,6 @@ function Page3() {
     transform: "translate(-50%, -50%)",
     width: 400,
     bgcolor: "background.paper",
-    // border: "2px solid #000",
     borderRadius: "2px",
     boxShadow: 24,
     pt: 2,
@@ -71,11 +77,25 @@ function Page3() {
   const [opened, setOpened] = useState(false);
   const [times, setTimes] = useState(100);
   const [answered, setAnswered] = useState(false);
+  const [answer1, setAnswer1] = useState("");
+  const [answer2, setAnswer2] = useState("");
   const [start, setStart] = useState(false);
-  const [answers, setAnswers] = useState("");
   const [copied, setCopied] = useState(false);
   const [code, setCode] = useState("");
+  const [bonus, setBonus] = useState({ won: "", correct: 0 });
   const [open, setOpen] = useState(false);
+
+  const theme = useTheme();
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleChangeIndex = (index) => {
+    setValue(index);
+  };
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -101,9 +121,9 @@ function Page3() {
       setInterval(() => {
         setTimes((time) => time - 1);
       }, 1000);
-    scroll.scrollTo(250, {
+    scroll.scrollTo(400, {
       duration: 1500,
-      delay: 0,
+      delay: !start && 500,
       smooth: true,
       offset: 50,
     });
@@ -118,6 +138,77 @@ function Page3() {
         .slice(8)}-${Math.random().toString(32).slice(8)}`
     );
   }
+  const fabs = [
+    {
+      color: "primary",
+      sx: {
+        position: "relative",
+        bottom: 10,
+        left: "30vw",
+        marginBottom: -5,
+        display: !matches && "none",
+      },
+      icon: <East />,
+      label: "Add",
+    },
+    {
+      color: "primary",
+      sx: {
+        position: "relative",
+        bottom: 10,
+        right: "30vw",
+        marginBottom: -5,
+        display: !matches && "none",
+      },
+      icon: <West />,
+      label: "Edit",
+    },
+  ];
+  const transitionDuration = {
+    enter: theme.transitions.duration.enteringScreen,
+    exit: theme.transitions.duration.leavingScreen,
+  };
+  const handleAnswer = () => {
+    if (answer2 !== "" && answer1 !== "") {
+      setAnswered(true);
+      setOpened(true);
+      setTimeout(() => {
+        setOpened(false);
+        if (
+          answer1.replace(/[^A-Z0-9]/gi, "").toLocaleLowerCase() === "blue" &&
+          answer2.replace(/[^A-Z0-9]/gi, "").toLocaleLowerCase() === "blue"
+        ) {
+          setBonus({ won: "50%", correct: 2 });
+          handleOpen();
+        } else if (
+          (answer1.replace(/[^A-Z0-9]/gi, "").toLocaleLowerCase() === "blue" &&
+            answer2.replace(/[^A-Z0-9]/gi, "").toLocaleLowerCase() !==
+              "blue") ||
+          (answer2.replace(/[^A-Z0-9]/gi, "").toLocaleLowerCase() === "blue" &&
+            answer1.replace(/[^A-Z0-9]/gi, "").toLocaleLowerCase() !== "blue")
+        ) {
+          setBonus({ won: "25%", correct: 1 });
+          handleOpen();
+        } else {
+          handleOpen2();
+        }
+      }, 1000);
+    } else {
+      Store.addNotification({
+        title: "Error!",
+        message: "You have not attempted both questions",
+        type: "danger",
+        insert: "top",
+        container: "top-left",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: true,
+        },
+      });
+    }
+  };
   return (
     <motion.div
       initial={{ width: matches && 0, opacity: !matches && 0 }}
@@ -137,13 +228,11 @@ function Page3() {
             <Paper elevation={8} className="box">
               <Typography>Product ID: 14371</Typography>
               <br />
-              <motion.img
-                initial={{ minHeight: "20vh", transition: { duration: 1 } }}
-                animate={{ minHeight: "10vh", transition: { duration: 1 } }}
+              <img
                 src={Coupon}
                 style={{
-                  width: matches ? 400 : 230,
-                  minHeight: matches ? "30vh" : "20vh",
+                  width: matches ? "40vw" : "80vw",
+                  height: matches ? "30vw" : "60vw",
                   padding: 10,
                   borderRadius: "20px",
                 }}
@@ -198,134 +287,151 @@ function Page3() {
                   </div>
                 )}
 
-                <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
-                  <Box sx={{ my: 3, mx: 2 }}>
-                    <Grid container alignItems="center">
-                      <Grid item xs>
-                        <Typography
-                          gutterBottom
-                          variant="h4"
-                          p={3}
-                          component="div"
+                <Box sx={{ bgcolor: "background.paper", width: "100%" }}>
+                  <AppBar position="static" color="default">
+                    <Tabs
+                      value={value}
+                      onChange={handleChange}
+                      indicatorColor="primary"
+                      textColor="primary"
+                      variant="fullWidth"
+                      aria-label="action tabs example"
+                    >
+                      <Tab label="Question 1" {...a11yProps(0)} />
+                      <Tab label="Question 2" {...a11yProps(1)} />
+                    </Tabs>
+                  </AppBar>
+                  <SwipeableViews
+                    axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+                    index={value}
+                    onChangeIndex={handleChangeIndex}
+                  >
+                    <TabPanel value={value} index={0} dir={theme.direction}>
+                      <Typography variant="body2">
+                        RGB consists of the 3 primary colors, B in this context
+                        stands for what?
+                      </Typography>
+                      <Box sx={{ m: 2 }}>
+                        <Stack
+                          direction="row"
+                          spacing={1}
+                          style={{
+                            justifyContent: "center",
+                          }}
                         >
-                          Question
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                    <Typography color="text.secondary" variant="body2">
-                      RGB consists of the 3 primary colors, B in this context
-                      stands for what?
-                    </Typography>
-                  </Box>
-                  <Divider variant="middle" />
-                  <Box sx={{ m: 2 }}>
-                    <Stack
-                      direction="row"
-                      spacing={1}
-                      style={{
-                        justifyContent: "center",
-                      }}
-                    >
-                      <TextField
-                        variant="standard"
-                        label="your answer"
-                        style={{ fontSize: "10px" }}
-                        size="small"
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            if (answers !== "") {
-                              setAnswered(true);
-                              setOpened(true);
-                              setTimeout(() => {
-                                setOpened(false);
-                                if (
-                                  answers
-                                    .replace(/[^A-Z0-9]/gi, "")
-                                    .toLocaleLowerCase() === "blue"
-                                ) {
-                                  handleOpen();
-                                } else {
-                                  handleOpen2();
-                                }
-                              }, 1000);
-                            } else {
-                              Store.addNotification({
-                                title: "Error!",
-                                message: "You have not given an answer",
-                                type: "danger",
-                                insert: "top",
-                                container: "top-left",
-                                animationIn: [
-                                  "animate__animated",
-                                  "animate__fadeIn",
-                                ],
-                                animationOut: [
-                                  "animate__animated",
-                                  "animate__fadeOut",
-                                ],
-                                dismiss: {
-                                  duration: 3000,
-                                  onScreen: true,
-                                },
-                              });
-                            }
-                          }
-                        }}
-                        onChange={(e) => {
-                          setAnswers(e.target.value);
-                        }}
-                        disabled={times < 0 || answered}
-                      />
-                    </Stack>
-                  </Box>
-                  <Box sx={{ mt: 3, ml: 1, mb: 1 }}>
-                    <Button
-                      onClick={() => {
-                        if (answers !== "") {
-                          setAnswered(true);
-                          setOpened(true);
-                          setTimeout(() => {
-                            setOpened(false);
-                            if (
-                              answers
-                                .replace(/[^A-Z0-9]/gi, "")
-                                .toLocaleLowerCase() === "blue"
-                            ) {
-                              handleOpen();
-                            } else {
-                              handleOpen2();
-                            }
-                          }, 1000);
-                        } else {
-                          Store.addNotification({
-                            title: "Error!",
-                            message: "You have not given an answer",
-                            type: "danger",
-                            insert: "top",
-                            container: "top-left",
-                            animationIn: [
-                              "animate__animated",
-                              "animate__fadeIn",
-                            ],
-                            animationOut: [
-                              "animate__animated",
-                              "animate__fadeOut",
-                            ],
-                            dismiss: {
-                              duration: 3000,
-                              onScreen: true,
-                            },
-                          });
-                        }
-                      }}
-                      disabled={times < 0 || answered}
-                      className="shadow"
-                    >
-                      SUBMIT
-                    </Button>
-                  </Box>
-                  <br />
+                          <TextField
+                            variant="standard"
+                            label="your answer"
+                            style={{ fontSize: "10px" }}
+                            value={answer1}
+                            size="small"
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                setValue(1);
+                              }
+                            }}
+                            onChange={(e) => {
+                              setAnswer1(e.target.value);
+                            }}
+                            disabled={times < 0 || answered}
+                          />
+                        </Stack>
+                        <Zoom
+                          key={fabs.color}
+                          in={value === 0}
+                          timeout={transitionDuration}
+                          style={{
+                            transitionDelay: `${
+                              value === 0 ? transitionDuration.exit : 0
+                            }ms`,
+                          }}
+                          unmountOnExit
+                        >
+                          <Fab
+                            onClick={() => setValue(1)}
+                            sx={fabs[0].sx}
+                            aria-label={fabs[0].label}
+                            color={fabs[0].color}
+                          >
+                            {fabs[0].icon}
+                          </Fab>
+                        </Zoom>
+                      </Box>
+                      <Box sx={{ mt: 3, ml: 1, mb: 1 }}>
+                        <Button
+                          onClick={handleAnswer}
+                          disabled={times < 0 || answered}
+                          className="shadow"
+                        >
+                          SUBMIT
+                        </Button>
+                      </Box>
+                    </TabPanel>
+                    <TabPanel value={value} index={1} dir={theme.direction}>
+                      <Typography variant="body2">
+                        RGB consists of the 3 primary colors, B in this context
+                        stands for what?
+                      </Typography>
+                      <Box sx={{ m: 2 }}>
+                        <Stack
+                          direction="row"
+                          spacing={1}
+                          style={{
+                            justifyContent: "center",
+                          }}
+                        >
+                          <TextField
+                            variant="standard"
+                            label="your answer"
+                            style={{ fontSize: "10px" }}
+                            value={answer2}
+                            size="small"
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                setValue(0);
+                              }
+                            }}
+                            onChange={(e) => {
+                              setAnswer2(e.target.value);
+                            }}
+                            disabled={times < 0 || answered}
+                          />
+                        </Stack>
+                        <Zoom
+                          key={fabs.color}
+                          in={value === 1}
+                          timeout={transitionDuration}
+                          style={{
+                            transitionDelay: `${
+                              value === 1 ? transitionDuration.exit : 0
+                            }ms`,
+                          }}
+                          unmountOnExit
+                        >
+                          <Fab
+                            onClick={() => setValue(0)}
+                            sx={fabs[1].sx}
+                            aria-label={fabs[1].label}
+                            color={fabs[1].color}
+                          >
+                            {fabs[1].icon}
+                          </Fab>
+                        </Zoom>
+                      </Box>
+                      <Box sx={{ mt: 3, ml: 1, mb: 1 }}>
+                        <Button
+                          onClick={handleAnswer}
+                          disabled={times < 0 || answered}
+                          className="shadow"
+                        >
+                          SUBMIT
+                        </Button>
+                      </Box>
+                    </TabPanel>
+                  </SwipeableViews>
                 </Box>
+
+                <br />
               </div>
             )}
           </div>
@@ -373,8 +479,8 @@ function Page3() {
               alt="success"
             />
             <h5 id="child-modal-description">
-              Your answer was correct and you have received a coupon for this
-              product !!!
+              You got {bonus.correct === 2 ? "both" : "one"} answer correctly
+              and you have received a {bonus.won} coupon for this product !!!
             </h5>
             <Button
               onClick={() => {
@@ -385,16 +491,6 @@ function Page3() {
             >
               Get Code
             </Button>
-            {/* <Paper
-              elevation={8}
-              style={{
-                height: "20px",
-                backgroundColor: "purple",
-                boxShadow: "0px 0px 50px 5px purple ",
-              }}
-            >
-              cole
-            </Paper> */}
             <Button onClick={handleClose} color="error">
               Cancel
             </Button>
@@ -420,7 +516,7 @@ function Page3() {
               alt="success"
             />
             <h5 id="child-modal-description">
-              Your answer was wrong and you did not win a coupon for this
+              Your answers were wrong and you did not win a coupon for this
               product
             </h5>
             <Button onClick={handleClose2} color="error">
@@ -449,7 +545,15 @@ function Page3() {
               to copy this code to your clipboard.
             </Typography>
             <br />
-            <Typography style={{ letterSpacing: "0.15em" }}>{code}</Typography>
+            <Typography
+              style={{
+                letterSpacing: "0.15em",
+                fontFamily: "Comic Sans MS",
+                fontWeight: 800,
+              }}
+            >
+              {code}
+            </Typography>
             <br />
             <CopyToClipboard
               text={code}
@@ -488,3 +592,28 @@ function Page3() {
 }
 
 export default Page3;
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+function a11yProps(index) {
+  return {
+    id: `full-width-tab-${index}`,
+    "aria-controls": `full-width-tabpanel-${index}`,
+  };
+}

@@ -34,8 +34,18 @@ function Home() {
   }));
   return (
     <motion.div
-      initial={{ width: matches && 0, opacity: !matches && 0 }}
-      animate={{ width: matches && "100%", opacity: !matches && 1 }}
+      initial={{
+        // width: matches && 0,
+        x: 1000,
+        opacity: !matches && 0,
+        transition: { duration: 50 },
+      }}
+      animate={{
+        x: 0,
+        // width: matches && "100%",
+        opacity: !matches && 1,
+        transition: { duration: 0.2 },
+      }}
     >
       <ReactNotifications />
       <Container maxWidth="lg" id="home">

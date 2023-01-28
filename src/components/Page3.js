@@ -359,11 +359,11 @@ function Page3() {
                       </Box>
                       <Box sx={{ mt: 3, ml: 1, mb: 1 }}>
                         <Button
-                          onClick={handleAnswer}
+                          onClick={() => setValue(1)}
                           disabled={times < 0 || answered}
                           className="shadow"
                         >
-                          SUBMIT
+                          NEXT
                         </Button>
                       </Box>
                     </TabPanel>

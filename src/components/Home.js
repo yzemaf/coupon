@@ -13,8 +13,13 @@ import { ReactNotifications } from "react-notifications-component";
 import "animate.css";
 import "react-notifications-component/dist/theme.css";
 import { motion } from "framer-motion";
+// import { useEffect } from "react";
 
 function Home() {
+  // useEffect(() => {
+  //   console.log("akaraa");
+  //   fetch("https://zave.plutospace.space");
+  // }, []);
   const navigate = useNavigate();
 
   const matches = useMediaQuery("(min-width:600px)");

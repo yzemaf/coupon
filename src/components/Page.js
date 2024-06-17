@@ -15,6 +15,8 @@ import {
   Typography,
   useMediaQuery,
   TextField,
+  Skeleton,
+  Chip,
 } from "@mui/material";
 import { Container } from "@mui/system";
 import { styled } from "@mui/material/styles";
@@ -76,6 +78,7 @@ function Page() {
   const matches = useMediaQuery("(min-width:600px)");
   const [opened, setOpened] = useState(false);
   const [times, setTimes] = useState(100);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [answered, setAnswered] = useState(false);
   const [answer1, setAnswer1] = useState("");
   const [answer2, setAnswer2] = useState("");
@@ -225,27 +228,48 @@ function Page() {
         {!userAnswered ? (
           <div>
             <Paper elevation={8} className="box">
-              <Typography>Product ID: 47214371</Typography>
+              <div
+                style={{
+                  height: 40,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "rgba(0,0,0,0.7)",
+                }}
+              >
+                <Typography
+                  style={{
+                    fontFamily: "monospace",
+                    color: "silver",
+                    fontWeight: 800,
+                  }}
+                >
+                  Product ID: 47214371
+                </Typography>
+              </div>
               <br />
               <img
                 src={Coupon}
                 style={{
-                  width: matches ? "40vw" : "75vw",
-                  height: matches ? "27vw" : "52vw",
+                  width: matches ? "40vw" : "320px",
+                  height: matches ? "27vw" : "240px",
                   padding: 10,
                   borderRadius: "20px",
                 }}
                 alt="coupon"
               />
               <br />
-              <Typography>
-                Price&nbsp;:&nbsp;
-                <b
-                  style={{ color: "red", fontWeight: 700, fontSize: "1.2rem" }}
-                >
-                  $99.99
-                </b>
-              </Typography>
+              <Chip
+                color="secondary"
+                // variant="outlined"
+                label="$99.99"
+                style={{
+                  fontWeight: 700,
+                  fontSize: "1.0rem",
+                  letterSpacing: 2,
+                }}
+              />
+              <br />
               <br />
               <Alert severity="warning" style={{ textAlign: "center" }}>
                 Hello! You are eligible to get a coupon for the above product if
@@ -473,7 +497,7 @@ function Page() {
               src={Success}
               style={{
                 width: matches ? 300 : 200,
-                minHeight: matches ? "30vh" : "20vh",
+                height: matches ? 300 : 200,
               }}
               alt="success"
             />
@@ -510,7 +534,7 @@ function Page() {
               src={Error}
               style={{
                 width: matches ? 300 : 200,
-                minHeight: matches ? "30vh" : "20vh",
+                height: matches ? 300 : 200,
               }}
               alt="success"
             />

@@ -15,6 +15,7 @@ import {
   Typography,
   useMediaQuery,
   TextField,
+  Chip,
 } from "@mui/material";
 import { Container } from "@mui/system";
 import { styled } from "@mui/material/styles";
@@ -226,27 +227,48 @@ function Page3() {
         {!userAnswered ? (
           <div>
             <Paper elevation={8} className="box">
-              <Typography>Product ID: 14371</Typography>
+              <div
+                style={{
+                  height: 40,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "rgba(0,0,0,0.7)",
+                }}
+              >
+                <Typography
+                  style={{
+                    fontFamily: "monospace",
+                    color: "silver",
+                    fontWeight: 800,
+                  }}
+                >
+                  Product ID: 14371
+                </Typography>
+              </div>
               <br />
               <img
                 src={Coupon}
                 style={{
-                  width: matches ? "40vw" : "80vw",
-                  height: matches ? "30vw" : "60vw",
+                  width: matches ? "40vw" : "320px",
+                  height: matches ? "30vw" : "220px",
                   padding: 10,
                   borderRadius: "20px",
                 }}
                 alt="coupon"
               />
               <br />
-              <Typography>
-                Price&nbsp;:&nbsp;
-                <b
-                  style={{ color: "red", fontWeight: 700, fontSize: "1.2rem" }}
-                >
-                  $49.99
-                </b>
-              </Typography>
+              <Chip
+                color="secondary"
+                // variant="outlined"
+                label="$149.99"
+                style={{
+                  fontWeight: 700,
+                  fontSize: "1.0rem",
+                  letterSpacing: 2,
+                }}
+              />
+              <br />
               <br />
               <Alert severity="warning" style={{ textAlign: "center" }}>
                 Hello! You are eligible to get a coupon for the above product if
@@ -474,7 +496,7 @@ function Page3() {
               src={Success}
               style={{
                 width: matches ? 300 : 200,
-                minHeight: matches ? "30vh" : "20vh",
+                height: matches ? 300 : 200,
               }}
               alt="success"
             />
@@ -511,7 +533,7 @@ function Page3() {
               src={Error}
               style={{
                 width: matches ? 300 : 200,
-                minHeight: matches ? "30vh" : "20vh",
+                height: matches ? 300 : 200,
               }}
               alt="success"
             />

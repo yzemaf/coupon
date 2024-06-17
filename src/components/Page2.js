@@ -15,6 +15,7 @@ import {
   Typography,
   useMediaQuery,
   TextField,
+  Chip,
 } from "@mui/material";
 import { Container } from "@mui/system";
 import { styled } from "@mui/material/styles";
@@ -182,7 +183,8 @@ function Page2() {
           handleOpen();
         } else if (
           (answer1.replace(/[^A-Z0-9]/gi, "").toLocaleLowerCase() === "green" &&
-            answer2.replace(/[^A-Z0-9]/gi, "").toLocaleLowerCase() !== "green") ||
+            answer2.replace(/[^A-Z0-9]/gi, "").toLocaleLowerCase() !==
+              "green") ||
           (answer2.replace(/[^A-Z0-9]/gi, "").toLocaleLowerCase() === "green" &&
             answer1.replace(/[^A-Z0-9]/gi, "").toLocaleLowerCase() !== "green")
         ) {
@@ -225,27 +227,48 @@ function Page2() {
         {!userAnswered ? (
           <div>
             <Paper elevation={8} className="box">
-              <Typography>Product ID: 2214371</Typography>
+              <div
+                style={{
+                  height: 40,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "rgba(0,0,0,0.7)",
+                }}
+              >
+                <Typography
+                  style={{
+                    fontFamily: "monospace",
+                    color: "silver",
+                    fontWeight: 800,
+                  }}
+                >
+                  Product ID: 2214371
+                </Typography>
+              </div>
               <br />
               <img
                 src={Coupon}
                 style={{
-                  width: matches ? "30vw" : "60vw",
-                  height: matches ? "30vw" : "60vw",
+                  width: matches ? "30vw" : "240px",
+                  height: matches ? "30vw" : "240px",
                   padding: 10,
                   borderRadius: "20px",
                 }}
                 alt="coupon"
               />
               <br />
-              <Typography>
-                Price&nbsp;:&nbsp;
-                <b
-                  style={{ color: "red", fontWeight: 700, fontSize: "1.2rem" }}
-                >
-                  $499.99
-                </b>
-              </Typography>
+              <Chip
+                color="secondary"
+                variant="outlined"
+                label="$60"
+                style={{
+                  fontWeight: 700,
+                  fontSize: "1.0rem",
+                  letterSpacing: 2,
+                }}
+              />
+              <br />
               <br />
               <Alert severity="warning" style={{ textAlign: "center" }}>
                 Hello! You are eligible to get a coupon for the above product if
@@ -473,7 +496,7 @@ function Page2() {
               src={Success}
               style={{
                 width: matches ? 300 : 200,
-                minHeight: matches ? "30vh" : "20vh",
+                height: matches ? 300: 200,
               }}
               alt="success"
             />
@@ -510,7 +533,7 @@ function Page2() {
               src={Error}
               style={{
                 width: matches ? 300 : 200,
-                minHeight: matches ? "30vh" : "20vh",
+                height: matches ? 300 : 200,
               }}
               alt="success"
             />

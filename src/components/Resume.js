@@ -1,20 +1,11 @@
 import {
   Box,
-  Button,
   ButtonGroup,
-  Chip,
   Grid,
-  LinearProgress,
-  Typography,
-  useMediaQuery,
 } from "@mui/material";
-import { Container } from "@mui/system";
 import { styled } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
-import { ReactNotifications } from "react-notifications-component";
 import "animate.css";
 import "react-notifications-component/dist/theme.css";
-import { motion } from "framer-motion";
 import { useEffect } from "react";
 // import { useEffect } from "react";
 
@@ -26,9 +17,7 @@ function Resume() {
   useEffect(() => {
     document.title = "My Resume";
   }, []);
-  const navigate = useNavigate();
 
-  const matches = useMediaQuery("(min-width:600px)");
   const Widget = styled("div")(({ theme }) => ({
     padding: 16,
     borderRadius: 16,

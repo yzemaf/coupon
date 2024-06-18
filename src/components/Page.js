@@ -15,7 +15,6 @@ import {
   Typography,
   useMediaQuery,
   TextField,
-  Skeleton,
   Chip,
 } from "@mui/material";
 import { Container } from "@mui/system";
@@ -78,7 +77,6 @@ function Page() {
   const matches = useMediaQuery("(min-width:600px)");
   const [opened, setOpened] = useState(false);
   const [times, setTimes] = useState(100);
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [answered, setAnswered] = useState(false);
   const [answer1, setAnswer1] = useState("");
   const [answer2, setAnswer2] = useState("");

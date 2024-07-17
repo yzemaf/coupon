@@ -1,8 +1,4 @@
-import {
-  Box,
-  ButtonGroup,
-  Grid,
-} from "@mui/material";
+import { Box, ButtonGroup, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import "animate.css";
 import "react-notifications-component/dist/theme.css";

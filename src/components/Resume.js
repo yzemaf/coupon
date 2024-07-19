@@ -86,6 +86,10 @@ function Resume() {
             </span>
             <br />
             <span style={{ fontSize: "13px", opacity: 0.9 }}>
+              yzemaf@github.com
+            </span>
+            <br />
+            <span style={{ fontSize: "13px", opacity: 0.9 }}>
               petertoyosi24@gmail.com
             </span>
             <br />
